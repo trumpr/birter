@@ -11,7 +11,10 @@
     <meta name="theme-color" content="#000000" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
 
     <!-- PWA Manifest -->
     <link rel="manifest" href="manifest.json" />
@@ -24,7 +27,7 @@
         margin: 0;
         padding: 0;
         height: 100%;
-        overflow: hidden;
+        overflow: hidden; /* scrollu söndür */
         background: #000;
         touch-action: manipulation;
         font-family: sans-serif;
@@ -32,7 +35,7 @@
 
       .screen {
         width: 100vw;
-        height: 100vh; /* status bar görünəcək */
+        height: 100vh;
         position: relative;
         padding-top: env(safe-area-inset-top);
         padding-bottom: env(safe-area-inset-bottom);
@@ -43,7 +46,7 @@
       .screen img {
         width: 100%;
         height: 100%;
-        object-fit: fill;
+        object-fit: cover; /* deformasiya olmadan tam ekran */
       }
 
       .click-area {
@@ -91,16 +94,26 @@
     <div class="screen">
       <img src="bank.png" alt="Bank App" />
 
-      <div class="click-area btn-transfer" onclick="goPage('2.html')"></div>
+      <div
+        class="click-area btn-transfer"
+        onclick="goPage('2.html')"
+        aria-label="Transfer"
+      ></div>
       <div
         class="click-area btn-payment"
         onclick="goPage('payment.html')"
+        aria-label="Payment"
       ></div>
       <div
         class="click-area btn-history"
         onclick="goPage('history.html')"
+        aria-label="History"
       ></div>
-      <div class="click-area card-area" onclick="goPage('2.html')"></div>
+      <div
+        class="click-area card-area"
+        onclick="goPage('2.html')"
+        aria-label="Card"
+      ></div>
     </div>
 
     <script>
@@ -117,7 +130,19 @@
         { passive: false },
       );
 
-      // iOS üçün “Add to Home Screen” prompt-unu idarə etmək
+      // tam ekran üçün Android immersive mode
+      function enableFullScreen() {
+        if (document.documentElement.requestFullscreen) {
+          document.documentElement.requestFullscreen();
+        } else if (document.documentElement.webkitRequestFullscreen) {
+          document.documentElement.webkitRequestFullscreen();
+        } else if (document.documentElement.msRequestFullscreen) {
+          document.documentElement.msRequestFullscreen();
+        }
+      }
+      enableFullScreen();
+
+      // iOS üçün “Add to Home Screen” prompt
       let deferredPrompt;
       window.addEventListener("beforeinstallprompt", (e) => {
         e.preventDefault();
