@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Uğurlu əməliyyat</title>
     <style>
+      /* Sənin mövcud stil unchanged */
       body {
         margin: 0;
         font-family: Arial, sans-serif;
@@ -87,6 +88,7 @@
         text-align: center;
         font-size: 14px;
         color: #555;
+        cursor: pointer;
       }
       .icon {
         width: 55px;
@@ -115,7 +117,6 @@
   <body>
     <div class="container">
       <div class="title">Bank kartına köçürmə</div>
-
       <div class="circle-wrapper">
         <div class="outer-circle">
           <div class="middle-circle">
@@ -125,14 +126,10 @@
           </div>
         </div>
       </div>
-
       <div class="success-text">Uğurlu əməliyyat!</div>
-
       <div class="amount" id="amount">0.00 AZN</div>
       <div class="card" id="card">****0000</div>
-
       <div class="subtitle">Bank kartına köçürmə</div>
-
       <div class="actions">
         <div class="action">
           <div class="icon">★</div>
@@ -142,21 +139,38 @@
           <div class="icon">⟳</div>
           Əməliyyatlar
         </div>
-        <div class="action">
+        <div class="action" onclick="window.location.href = '6.html'">
           <div class="icon">i</div>
           Detallar
         </div>
       </div>
-
       <div class="button" onclick="window.close()">Bağlamaq</div>
     </div>
 
+    <!-- 🔹 Script yalnız məlumat üçün -->
     <script>
       const params = new URLSearchParams(window.location.search);
       const amt = params.get("amount") || "0.00";
       const cardLast4 = params.get("card") || "0000";
+
+      // Ekranda göstər
       document.getElementById("amount").textContent = amt + " AZN";
       document.getElementById("card").textContent = "****" + cardLast4;
+
+      // Telefon vaxtını götür
+      const now = new Date();
+      const time = now.toLocaleString("az-AZ", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+
+      // localStorage-a yaz
+      localStorage.setItem("amount", amt);
+      localStorage.setItem("card", cardLast4);
+      localStorage.setItem("time", time);
     </script>
   </body>
 </html>
